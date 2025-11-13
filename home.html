@@ -14,28 +14,46 @@
   </div>
 
   <script type="module">
-    import { app } from "./firebase-config.js";
-    import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDS8ms94w5SJUE2PfbfRKyZLJC48H3WeUo",
+      authDomain: "sistem-login-aman-79b31.firebaseapp.com",
+      projectId: "sistem-login-aman-79b31",
+      storageBucket: "sistem-login-aman-79b31.firebasestorage.app",
+      messagingSenderId: "785633807671",
+      appId: "1:785633807671:web:79ff01a44fff1a61f91eb2"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+
+    // Ambil elemen
     const userEmail = document.getElementById("userEmail");
     const logoutBtn = document.getElementById("logoutBtn");
 
-    // Cek apakah user sudah login
+    // Cek user login
     onAuthStateChanged(auth, (user) => {
       if (user) {
         userEmail.textContent = `Anda login sebagai: ${user.email}`;
       } else {
-        // Kalau belum login, redirect ke halaman login
-        window.location.href = "index.html";
+        window.location.href = "index.html"; // redirect ke login kalau belum login
       }
     });
 
     // Tombol logout
     logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      alert("Anda telah logout.");
-      window.location.href = "index.html";
+      try {
+        await signOut(auth);
+        alert("Anda telah logout.");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Gagal Logout:", error);
+      }
     });
   </script>
 </body>
